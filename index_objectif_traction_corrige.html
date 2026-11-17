@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101d35">
+<meta name="description" content="OBJECTIF TRACTION — simulateur d'entraînement psychotechnique CRL non officiel.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<title>OBJECTIF TRACTION</title>
+<style>
+:root{--navy:#101d35;--navy2:#172945;--red:#e3424d;--ink:#eaf0f8;--muted:#9fb0c8;--line:#30435f;--green:#37c994;--gold:#f0bd55}
+*{box-sizing:border-box}body{margin:0;background:#0b1527;color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:linear-gradient(120deg,#101d35,#1b3153);border-bottom:1px solid var(--line);padding:18px max(18px,calc((100% - 1100px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:5}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;border-radius:12px;background:var(--red);display:grid;place-items:center;font-weight:900;font-size:20px}.brand strong{display:block;letter-spacing:.08em}.brand small{color:var(--muted)}
+button,.btn{border:0;border-radius:10px;padding:11px 15px;background:var(--red);color:white;font-weight:750;cursor:pointer}button.secondary{background:#263c5c;border:1px solid #405777}button:disabled{opacity:.45;cursor:not-allowed}
+main{max-width:1100px;margin:28px auto;padding:0 18px}.hero{padding:32px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(130deg,#172945,#101d35);margin-bottom:22px}.eyebrow{color:#ff858d;font-weight:800;letter-spacing:.14em;font-size:12px}.hero h1{font-size:clamp(28px,5vw,44px);line-height:1.08;margin:10px 0}.hero p{color:var(--muted);max-width:700px}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.tabs button{background:#1a2b46;border:1px solid var(--line)}.tabs button.active{background:var(--red);border-color:var(--red)}
+.panel{background:#12223b;border:1px solid var(--line);border-radius:16px;padding:22px;margin:16px 0}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.card{background:#172945;border:1px solid var(--line);border-radius:14px;padding:18px}.card h3{margin:4px 0 8px}.muted{color:var(--muted)}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.stats{display:flex;gap:10px;flex-wrap:wrap}.stat{background:#0d1a2e;border:1px solid var(--line);padding:9px 13px;border-radius:10px}.stat b{display:block;font-size:20px}.arena{position:relative;background:#091426;border:1px solid #405777;border-radius:12px;overflow:hidden;height:330px;margin:18px 0}.track{position:absolute;left:5%;right:3%;height:3px;background:#91a5bd;border-radius:4px;transform:translateY(-50%)}.track.safe{background:#37c994;height:4px}.track-label{position:absolute;left:1%;transform:translateY(-50%);font-size:11px;color:#aebdd0;font-weight:800}.switch-line{position:absolute;height:3px;background:#f0bd55;transform-origin:left center;border-radius:3px;opacity:.85}.switch-node{position:absolute;width:12px;height:12px;background:#f0bd55;border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 8px #f0bd5580}.danger-zone{position:absolute;height:20px;width:8%;border:2px solid #e3424d;border-radius:5px;background:repeating-linear-gradient(135deg,#e3424d 0 4px,#481b2a 4px 8px);transform:translate(-50%,-50%);box-shadow:0 0 10px #e3424d55}.cell{position:absolute;transform:translate(-50%,-50%);width:30px;height:30px;border-radius:50%;background:#e8eff8;color:#101d35;display:grid;place-items:center;font-weight:900;border:3px solid #9fb0c8;z-index:3}.cell.target{background:var(--gold);border-color:#fff1c6}.cell.stopped{background:var(--green)}.cell.danger{background:var(--red);border-color:#ffb0b5;color:white;box-shadow:0 0 12px #e3424d}.track-legend{font-size:11px;color:#9fb0c8;text-align:center;margin-top:4px}.controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:14px 0}.key{background:#243b5d;border:1px solid #58708f;padding:8px 13px;border-radius:8px;font-weight:800;min-width:38px;text-align:center}.feedback{min-height:26px;color:var(--gold);font-weight:700}.sequence{font-size:clamp(17px,3vw,25px);letter-spacing:.12em;text-align:center;background:#091426;padding:18px;border-radius:10px;margin:12px 0;overflow-wrap:anywhere}.hidden{display:none!important}.notice{border-left:4px solid var(--gold);padding:10px 14px;background:#1a2b46;color:#cbd7e7;border-radius:6px;font-size:13px}.result{font-size:30px;font-weight:900;color:var(--green)}footer{max-width:1100px;margin:30px auto;padding:20px 18px;color:#8496b0;font-size:12px;border-top:1px solid var(--line)}
+input,select{background:#091426;color:var(--ink);border:1px solid var(--line);padding:10px;border-radius:8px}
+@media(max-width:600px){header{padding:12px 14px}.hero{padding:22px}.panel{padding:15px}.arena{height:300px}}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo">FA</div><div><strong>OBJECTIF TRACTION</strong><small>Simulateur d'entraînement CRL</small></div></div><button id="installBtn" class="secondary hidden">Installer</button></header>
+<main>
+<section class="hero"><div class="eyebrow">ENTRAÎNEMENT • CONCENTRATION • RÉACTIVITÉ</div><h1>Prépare tes réflexes.<br>Garde le contrôle.</h1><p>Trois exercices inspirés des descriptions de tests psychotechniques et psychomoteurs. Entraîne-toi à ton rythme, sur ordinateur ou téléphone.</p><div class="row"><div class="stats"><div class="stat"><b id="bestScore">—</b><small>Meilleur score</small></div><div class="stat"><b id="sessions">0</b><small>Sessions</small></div></div><button onclick="showTab('triage')">Commencer</button></div></section>
+<nav class="tabs"><button class="active" data-tab="home">Accueil</button><button data-tab="triage">1 · Triage</button><button data-tab="orders">2 · Consignes</button><button data-tab="dual">3 · Double tâche</button><button data-tab="history">Résultats</button></nav>
+<section id="home" class="tab panel"><h2>Choisis ton exercice</h2><div class="cards">
+<div class="card"><div class="eyebrow">ÉPREUVE 01</div><h3>Triage des cellules</h3><p class="muted">Repère les cellules à risque et supprime-les avant la zone rouge avec les touches 1 à 0.</p><button onclick="showTab('triage')">S'entraîner</button></div>
+<div class="card"><div class="eyebrow">ÉPREUVE 02</div><h3>Application des consignes</h3><p class="muted">Écoute une instruction et arrête la bonne cellule dans la zone demandée, ou applique l'arrêt d'urgence.</p><button onclick="showTab('orders')">S'entraîner</button></div>
+<div class="card"><div class="eyebrow">ÉPREUVE 03</div><h3>Attention partagée</h3><p class="muted">Gère le triage tout en comparant deux suites de caractères.</p><button onclick="showTab('dual')">S'entraîner</button></div></div><p class="notice">Important : exercice pédagogique indépendant, non officiel et non affilié à la SNCF. Les règles, vitesses et scores sont simplifiés et ne reproduisent pas un logiciel de recrutement.</p></section>
+<section id="triage" class="tab panel hidden"><div class="row"><div><div class="eyebrow">ÉPREUVE 01</div><h2>Triage des cellules</h2></div><label>Difficulté <select id="difficulty1"><option value="easy">Facile</option><option value="medium" selected>Intermédiaire</option><option value="hard">Difficile</option></select></label></div><p class="muted">Appuie sur le numéro d'une cellule cible avant qu'elle n'atteigne la zone rouge. Clavier : 1–9 et 0 pour la cellule 10.</p><div class="stats"><div class="stat"><b id="tScore">0</b><small>Score</small></div><div class="stat"><b id="tMiss">0</b><small>Erreurs / oublis</small></div><div class="stat"><b id="tTime">60</b><small>Secondes</small></div></div><div class="arena" id="arena1"></div><div class="feedback" id="feedback1">Prêt ? Lance une session.</div><div class="controls"><button id="start1">Démarrer 60 s</button><button class="secondary" id="stop1">Arrêter</button></div><div class="controls" id="keys1"></div></section>
+<section id="orders" class="tab panel hidden"><div class="row"><div><div class="eyebrow">ÉPREUVE 02</div><h2>Consignes vocales</h2></div><label>Difficulté <select id="difficulty2"><option value="easy">Facile</option><option value="medium" selected>Intermédiaire</option><option value="hard">Difficile</option></select></label></div><p class="muted">Écoute l'annonce. Pour « arrêter en zone 3 », appuie sur le numéro de la cellule lorsqu'elle franchit la zone 3. Pour « arrêt d'urgence », appuie immédiatement. « Ne pas prendre en compte » : ne fais rien.</p><div class="stats"><div class="stat"><b id="oScore">0</b><small>Score</small></div><div class="stat"><b id="oMiss">0</b><small>Erreurs</small></div><div class="stat"><b id="oTime">60</b><small>Secondes</small></div></div><div class="arena" id="arena2"></div><div class="feedback" id="feedback2">Lance la session et écoute les consignes.</div><div class="controls"><button id="start2">Démarrer 60 s</button><button class="secondary" id="repeat2">Répéter la consigne</button><button class="secondary" id="stop2">Arrêter</button></div><div class="controls" id="keys2"></div></section>
+<section id="dual" class="tab panel hidden"><div class="row"><div><div class="eyebrow">ÉPREUVE 03</div><h2>Attention partagée</h2></div><label>Difficulté <select id="difficulty3"><option value="easy">Facile</option><option value="medium" selected>Intermédiaire</option><option value="hard">Difficile</option></select></label></div><p class="muted">Gère le triage avec les touches 1 à 0. En parallèle, indique si les deux suites sont identiques (←) ou différentes (→).</p><div class="stats"><div class="stat"><b id="dScore">0</b><small>Score</small></div><div class="stat"><b id="dMiss">0</b><small>Erreurs</small></div><div class="stat"><b id="dTime">60</b><small>Secondes</small></div></div><div class="arena" id="arena3"></div><div class="panel"><div class="muted">SUITE A</div><div class="sequence" id="seqA">—</div><div class="muted">SUITE B</div><div class="sequence" id="seqB">—</div><div class="controls"><button class="secondary" id="same">← Identiques</button><button class="secondary" id="different">Différentes →</button></div></div><div class="feedback" id="feedback3">Lance la session pour commencer.</div><div class="controls"><button id="start3">Démarrer 60 s</button><button class="secondary" id="stop3">Arrêter</button></div><div class="controls" id="keys3"></div></section>
+<section id="history" class="tab panel hidden"><h2>Mes résultats</h2><p class="muted">Les résultats sont conservés uniquement sur cet appareil et dans ce navigateur.</p><div id="historyList">Aucune session pour le moment.</div><button class="secondary" id="clearHistory">Effacer mon historique</button></section>
+</main><footer>OBJECTIF TRACTION · Projet indépendant d'entraînement. Les performances obtenues ici ne préjugent pas du résultat d'un recrutement ou d'une évaluation officielle.</footer>
+<script>
+const $=id=>document.getElementById(id);
+let activeTab='home';
+function showTab(tab){activeTab=tab;document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('hidden',x.id!==tab));document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));if(tab==='history')renderHistory();window.scrollTo({top:0,behavior:'smooth'});}
+document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+const getHistory=()=>JSON.parse(localStorage.getItem('faHistory')||'[]');
+function saveResult(name,score,miss){let h=getHistory();h.unshift({name,score,miss,date:new Date().toLocaleString('fr-FR')});localStorage.setItem('faHistory',JSON.stringify(h.slice(0,40)));updateHome();}
+function updateHome(){let h=getHistory();$('sessions').textContent=h.length;$('bestScore').textContent=h.length?Math.max(...h.map(x=>x.score)):'—';}
+function renderHistory(){let h=getHistory();$('historyList').innerHTML=h.length?h.map(x=>`<div class="row card" style="margin:10px 0"><div><b>${x.name}</b><div class="muted">${x.date}</div></div><div><b>${x.score} pts</b><div class="muted">${x.miss} erreur(s)</div></div></div>`).join(''):'Aucune session pour le moment.';}
+$('clearHistory').onclick=()=>{if(confirm('Effacer tout l’historique de cet appareil ?')){localStorage.removeItem('faHistory');renderHistory();updateHome();}};
+updateHome();
+const cfg={easy:{startSpeed:7.5,endSpeed:14,spawn:2500},medium:{startSpeed:7.5,endSpeed:18,spawn:2200},hard:{startSpeed:8,endSpeed:22,spawn:1900}};
+const keyLabel=n=>n===10?'0':String(n);
+function addKeys(id,fn){let el=$(id);el.innerHTML='';for(let n=1;n<=10;n++){let b=document.createElement('button');b.className='key';b.textContent=keyLabel(n);b.onclick=()=>fn(n);el.appendChild(b);}}
+function randomCell(){return Math.floor(Math.random()*10)+1;}
+function randomSeq(len=7){let s='';let chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';for(let i=0;i<len;i++)s+=chars[Math.floor(Math.random()*chars.length)];return s;}
+const TRACK_Y=[12,31,50,69,88];
+const RED_ZONES={1:[72],2:[34],4:[24],5:[57]}; // Ligne 3 volontairement sans zone rouge.
+function buildRailway(arena){
+ arena.innerHTML='';
+ TRACK_Y.forEach((y,i)=>{
+   let line=document.createElement('div');line.className='track'+(i===2?' safe':'');line.style.top=y+'%';arena.appendChild(line);
+   let label=document.createElement('div');label.className='track-label';label.style.top=y+'%';label.textContent=String(i+1);arena.appendChild(label);
+ });
+ const drawSwitch=(x,a,b)=>{
+   const x2=x+12, y1=TRACK_Y[a], y2=TRACK_Y[b];
+   const dx=(x2-x)/100*arena.clientWidth, dy=(y2-y1)/100*arena.clientHeight;
+   const connector=document.createElement('div');connector.className='switch-line';
+   connector.style.left=x+'%';connector.style.top=y1+'%';
+   connector.style.width=Math.hypot(dx,dy)+'px';
+   connector.style.transform=`rotate(${Math.atan2(dy,dx)*180/Math.PI}deg)`;
+   arena.appendChild(connector);
+   [[x,y1],[x2,y2]].forEach(([px,py])=>{
+     const node=document.createElement('div');node.className='switch-node';node.style.left=px+'%';node.style.top=py+'%';arena.appendChild(node);
+   });
+ };
+ [[27,0,1],[27,1,2],[27,2,3],[27,3,4],[62,0,1],[62,1,2],[62,2,3],[62,3,4]].forEach(v=>drawSwitch(...v));
+ Object.entries(RED_ZONES).forEach(([lane,positions])=>positions.forEach(x=>{
+   let z=document.createElement('div');z.className='danger-zone';z.style.left=x+'%';z.style.top=TRACK_Y[Number(lane)-1]+'%';arena.appendChild(z);
+ }));
+}
+function makeEngine(arenaId,scoreId,missId,timeId,feedbackId,diffId,mode){
+ let arena=$(arenaId),cells=[],score=0,miss=0,time=60,running=false,raf=null,spawnTimer=null,clock=null,last=0,elapsed=0,seqTimer=null,task=null;
+ buildRailway(arena);
+ const settings=()=>cfg[$(diffId).value];
+ const currentSpeed=()=>{let c=settings();return c.startSpeed+(c.endSpeed-c.startSpeed)*Math.min(1,elapsed/60);};
+ function stats(){$(scoreId).textContent=score;$(missId).textContent=miss;$(timeId).textContent=time;}
+ function feedback(s){$(feedbackId).textContent=s;}
+ function speak(s){if('speechSynthesis'in window){speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(s);u.lang='fr-FR';u.rate=1.0;speechSynthesis.speak(u);}}
+ function addCell(){
+   if(!running)return;let n=randomCell(),target=Math.random()<(mode==='orders'?.72:.68),lane=Math.floor(Math.random()*5);
+   let c={n,x:5,lane,target,kind:'ignore',done:false,nextSwitch:27,transition:null,el:document.createElement('div')};
+   c.el.className='cell'+(target?' target':'');c.el.textContent=keyLabel(n);c.el.style.left=c.x+'%';c.el.style.top=TRACK_Y[lane]+'%';arena.appendChild(c.el);cells.push(c);
+   if(mode==='orders'&&target){let r=Math.random();c.kind=r<.22?'ignore':r<.43?'emergency':'zone';if(c.kind==='ignore')c.target=false;
+     let msg=c.kind==='ignore'?`Cellule ${n}, ne pas prendre en compte.`:c.kind==='emergency'?`Cellule ${n}, arrêt d'urgence !`:`Cellule ${n}, arrêter en zone 3.`;
+     task={n,kind:c.kind,spoken:msg};feedback(msg);speak(msg);}
+ }
+ function moveCell(c,dt){
+   c.x+=currentSpeed()*dt/1000;
+   [27,62].forEach(j=>{if(c.nextSwitch===j&&c.x>=j){
+     if(Math.random()<.48){
+       let choices=[];if(c.lane>0)choices.push(c.lane-1);if(c.lane<4)choices.push(c.lane+1);
+       if(choices.length){let next=choices[Math.floor(Math.random()*choices.length)];c.transition={from:c.lane,to:next,start:j,end:j+12};c.lane=next;}
+     }
+     c.nextSwitch=j===27?62:1000;
+   }});
+   let visualLane=c.lane;
+   if(c.transition){
+     let progress=Math.max(0,Math.min(1,(c.x-c.transition.start)/(c.transition.end-c.transition.start)));
+     visualLane=c.transition.from+(c.transition.to-c.transition.from)*progress;
+     if(progress>=1)c.transition=null;
+   }
+   c.el.style.left=c.x+'%';
+   c.el.style.top=(TRACK_Y[0]+(TRACK_Y[4]-TRACK_Y[0])*visualLane/4)+'%';
+   // La cellule passe au rouge à l'approche d'une zone dangereuse.
+   const laneForDanger=Math.round(visualLane), zones=RED_ZONES[laneForDanger+1]||[];
+   let approaching=false,inside=false;
+   zones.forEach(zoneX=>{
+     const zoneStart=zoneX-4,zoneEnd=zoneX+4;
+     if(c.x>=zoneStart-7&&c.x<zoneEnd)approaching=true;
+     if(c.x>=zoneStart&&c.x<zoneEnd)inside=true;
+   });
+   c.el.classList.toggle('danger',approaching);
+   if(inside){
+     c.done=true;c.el.remove();miss++;
+     if(mode==='orders'&&task&&task.n===c.n)task=null;
+     feedback(`Erreur : cellule ${keyLabel(c.n)} entrée dans une zone rouge.`);return;
+   }
+   if(c.x>=95){c.done=true;c.el.remove();if(c.target)miss++;if(mode==='orders'&&task&&task.n===c.n)task=null;}
+ }
+ function draw(ts){if(!running)return;if(!last)last=ts;let dt=Math.min(50,ts-last);last=ts;elapsed+=dt/1000;cells.forEach(c=>{if(!c.done)moveCell(c,dt);});cells=cells.filter(c=>!c.done);stats();raf=requestAnimationFrame(draw);}
+ function start(){stop(false);score=0;miss=0;time=60;elapsed=0;running=true;last=0;cells=[];arena.querySelectorAll('.cell').forEach(x=>x.remove());stats();feedback('Session en cours… la vitesse augmente progressivement.');addCell();spawnTimer=setInterval(addCell,settings().spawn);clock=setInterval(()=>{time--;stats();if(time<=0)stop(true);},1000);raf=requestAnimationFrame(draw);if(mode==='dual')newTask();}
+ function stop(save=true){if(running&&save)saveResult(mode==='triage'?'Triage':mode==='orders'?'Consignes':'Double tâche',score,miss);running=false;clearInterval(spawnTimer);clearInterval(clock);clearInterval(seqTimer);cancelAnimationFrame(raf);if('speechSynthesis'in window)speechSynthesis.cancel();if(save)feedback(`Session terminée : ${score} points, ${miss} erreur(s).`);stats();}
+ function removeCell(c,points=10,message='Cellule traitée.'){c.done=true;c.el.remove();score+=points;feedback(message);stats();}
+ function press(n){if(!running)return;let c=cells.find(x=>x.n===n&&!x.done&&(mode==='orders'?x.kind!=='ignore':(x.target||x.el.classList.contains('danger'))));if(c){removeCell(c,10,`Cellule ${n} supprimée.`);}else{miss++;feedback(`Touche ${keyLabel(n)} : aucune cible correspondante.`);stats();}}
+ function orderPress(n){if(!running)return;let c=cells.find(x=>x.n===n&&!x.done);if(!c){miss++;feedback('Mauvaise cellule.');stats();return;}if(c.kind==='emergency'){removeCell(c,15,'Arrêt d’urgence appliqué.');task=null;}else if(c.kind==='zone'&&c.x>=60&&c.x<75){removeCell(c,15,'Arrêt effectué en zone 3.');task=null;}else{miss++;feedback(c.kind==='ignore'?'Cette cellule était à ignorer.':'Mauvais moment ou mauvaise consigne.');stats();}}
+ function newTask(){if(!running)return;let a=randomSeq(),same=Math.random()>.45,b=same?a:(a.slice(0,-1)+(a.slice(-1)==='Z'?'Y':'Z'));$('seqA').textContent=a;$('seqB').textContent=b;task={same};clearTimeout(seqTimer);seqTimer=setTimeout(newTask,5000);}
+ function answerSame(ans){if(!running||!task||typeof task.same!=='boolean')return;if(ans===task.same){score+=5;feedback('Bonne comparaison.');}else{miss++;feedback('Comparaison incorrecte.');}stats();newTask();}
+ addKeys(mode==='triage'?'keys1':mode==='orders'?'keys2':'keys3',mode==='orders'?orderPress:press);
+ return {start,stop,press,orderPress,repeat(){if(task&&task.spoken)speak(task.spoken);},answerSame};
+}
+const tri=makeEngine('arena1','tScore','tMiss','tTime','feedback1','difficulty1','triage');
+const ord=makeEngine('arena2','oScore','oMiss','oTime','feedback2','difficulty2','orders');
+const dual=makeEngine('arena3','dScore','dMiss','dTime','feedback3','difficulty3','dual');
+$('start1').onclick=tri.start;$('stop1').onclick=()=>tri.stop(true);
+$('start2').onclick=ord.start;$('stop2').onclick=()=>ord.stop(true);$('repeat2').onclick=ord.repeat;
+$('start3').onclick=dual.start;$('stop3').onclick=()=>dual.stop(true);
+$('same').onclick=()=>dual.answerSame(true);$('different').onclick=()=>dual.answerSame(false);
+document.addEventListener('keydown',e=>{if(['INPUT','SELECT','TEXTAREA'].includes(document.activeElement.tagName))return;let n=e.key==='0'?10:Number(e.key);if(n>=1&&n<=10){if(activeTab==='triage')tri.press(n);if(activeTab==='orders')ord.orderPress(n);if(activeTab==='dual')dual.press(n);}if(activeTab==='dual'&&e.key==='ArrowLeft')dual.answerSame(true);if(activeTab==='dual'&&e.key==='ArrowRight')dual.answerSame(false);});
+let installPrompt=null;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;$('installBtn').classList.remove('hidden');});$('installBtn').onclick=async()=>{if(installPrompt){installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;$('installBtn').classList.add('hidden');}};
+if('serviceWorker'in navigator&&location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+</script>
+</body></html>
