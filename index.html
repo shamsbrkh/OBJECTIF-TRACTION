@@ -70,7 +70,8 @@ function buildRailway(arena){
  });
  arena.appendChild(svg);
  [[27,0,1],[27,1,2],[27,2,3],[27,3,4],[62,0,1],[62,1,2],[62,2,3],[62,3,4]].forEach(([x,a,b])=>{
-   [[x,TRACK_Y[a]],[x,TRACK_Y[b]]].forEach(([px,py])=>{
+   // Point de départ sur la voie a, point d'arrivée sur la voie b.
+   [[x,TRACK_Y[a]],[x+12,TRACK_Y[b]]].forEach(([px,py])=>{
      const node=document.createElement('div');node.className='switch-node';
      node.style.left=px+'%';node.style.top=py+'%';arena.appendChild(node);
    });
@@ -117,7 +118,7 @@ function makeEngine(arenaId,scoreId,missId,timeId,feedbackId,diffId,mode){
    let approaching=false,inside=false;
    Object.entries(RED_ZONES).forEach(([lane,positions])=>{
      const laneIndex=Number(lane)-1;
-     if(Math.abs(visualLane-laneIndex)>.38)return;
+     if(Math.abs(visualLane-laneIndex)>.68)return;
      positions.forEach(zoneX=>{
        const zoneStart=zoneX-4,zoneEnd=zoneX+4;
        if(c.x>=zoneStart-7&&c.x<zoneEnd)approaching=true;

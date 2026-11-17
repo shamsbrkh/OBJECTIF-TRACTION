@@ -1,4 +1,4 @@
-const CACHE='objectif-traction-v3';
+const CACHE='objectif-traction-v4';
 const FILES=['./','./index.html','./manifest.json','./icon.svg'];
 
 self.addEventListener('install',event=>{
